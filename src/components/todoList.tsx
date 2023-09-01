@@ -1,8 +1,9 @@
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { BiEdit } from "react-icons/bi"
 import { toast } from 'react-toastify'
+import ComponentData from "../types/data";
 
-const TodoList = ({ tasks, setTasks, setInputValue, setEditIndex }) => {
+const TodoList = ({ tasks, setTasks, setInputValue, setEditIndex }: ComponentData.TodoList) => {
     const handleEditTask = (index: number) => {
         setEditIndex(index);
         setInputValue(tasks[index]);

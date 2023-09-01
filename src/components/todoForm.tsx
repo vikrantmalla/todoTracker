@@ -1,7 +1,8 @@
 import React from 'react'
+import ComponentData from '../types/data';
 import { MdAdd } from "react-icons/md";
 
-const TodoForm = ({ tasks, setTasks, inputValue, setInputValue, editIndex, setEditIndex }) => {
+const TodoForm = ({ tasks, setTasks, inputValue, setInputValue, editIndex, setEditIndex }: ComponentData.TodoForm) => {
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value)
     }
