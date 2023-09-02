@@ -1,19 +1,21 @@
-declare namespace ComponentData {
-  interface TodoForm {
-    tasks: string[];
-    setTasks: React.Dispatch<React.SetStateAction<string[]>>;
-    inputValue: string;
-    setInputValue: React.Dispatch<React.SetStateAction<string>>;
-    editIndex: number | null;
-    setEditIndex: React.Dispatch<React.SetStateAction<number | null>>;
+declare namespace Data {
+  declare namespace ComponentData {
+    interface TodoForm {
+      inputValue: string;
+      setInputValue: React.Dispatch<React.SetStateAction<string>>;
+    }
   }
 
-  interface TodoList {
-    tasks: string[];
-    setTasks: React.Dispatch<React.SetStateAction<string[]>>;
-    setInputValue: React.Dispatch<React.SetStateAction<string>>;
-    setEditIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  declare namespace ContextData {
+    interface Todo {
+      id: string;
+      text: string;
+    }
+
+    interface TodoState {
+      todos: Todo[];
+    }
   }
 }
 
-export = ComponentData;
+export = Data;

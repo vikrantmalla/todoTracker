@@ -1,26 +1,19 @@
 import React from 'react'
-import ComponentData from '../types/data';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../features/todoSlice';
+import { ComponentData } from '../types/data';
 import { MdAdd } from "react-icons/md";
 
-const TodoForm = ({ tasks, setTasks, inputValue, setInputValue, editIndex, setEditIndex }: ComponentData.TodoForm) => {
+const TodoForm = ({ inputValue, setInputValue }: ComponentData.TodoForm) => {
+    const dispatch = useDispatch();
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value)
     }
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (inputValue.trim() !== "") {
-            if (editIndex !== null) {
-                // If editIndex is not null, it means we are editing an existing task
-                const updatedTasks = [...tasks];
-                updatedTasks[editIndex] = inputValue.trim();
-                setTasks(updatedTasks);
-                setEditIndex(null); // Reset editIndex after editing
-            } else {
-                setTasks([...tasks, inputValue.trim()]);
-            }
-            setInputValue("");
-        }
+        dispatch(addTodo(inputValue))
+        setInputValue('')
     }
     return (
         <>
