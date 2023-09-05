@@ -1,11 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setShowModal } from "../features/authSlice";
-import { AppDispatch } from "../app/store";
+import { AppDispatch, RootState } from "../app/store";
+import AuthModal from "./auth/AuthModal";
 
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     // modal open
+    const showModal = useSelector((state: RootState) => state.authReducer.showModal);
     const toggleModal = () => {
         dispatch(setShowModal(true));
     };
@@ -17,6 +19,7 @@ const Header = () => {
                 type="button" onClick={toggleModal}>
                 Log In
             </button>
+            {showModal ? <AuthModal /> : null}
         </div>
     )
 }
