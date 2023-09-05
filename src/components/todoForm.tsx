@@ -18,15 +18,15 @@ const TodoForm = ({ inputValue, setInputValue }: ComponentData.TodoForm) => {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <div className="flex flex-row justify-center items-center gap-4 border">
+                <div className="flex flex-row justify-center items-center gap-4">
                     <input
-                        className="p-2"
+                        className="p-2 w-[100%] border"
                         type="text"
                         value={inputValue}
                         onChange={handleInputChange}
                         placeholder="Enter a new task..."
                     />
-                    <button className="p-2" type="submit"><MdAdd /></button>
+                    <button className="p-3 border" type="submit"><MdAdd /></button>
                 </div>
             </form>
         </>

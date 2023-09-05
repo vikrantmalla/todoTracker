@@ -9,11 +9,11 @@ function IndexPopup() {
   const [inputValue, setInputValue] = useState<string>("")
   return (
     <>
-      <div className="App p-4">
+      <div>
         <header>
           <Header />
         </header>
-        <main>
+        <main className="w-[50%] m-auto">
           <TodoForm inputValue={inputValue} setInputValue={setInputValue} />
           <TodoList />
         </main>
