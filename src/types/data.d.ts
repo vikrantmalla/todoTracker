@@ -15,6 +15,10 @@ declare namespace Data {
     interface TodoState {
       todos: Todo[];
     }
+
+    interface AuthState {
+      showModal: boolean;
+    }
   }
 }
 
