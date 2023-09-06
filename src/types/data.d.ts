@@ -18,6 +18,8 @@ declare namespace Data {
 
     interface AuthState {
       showModal: boolean;
+      openTab: number;
+      showForgetPasswordModal: boolean;
     }
   }
 }
