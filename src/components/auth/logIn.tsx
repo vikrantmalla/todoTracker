@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
-import ResetPassword from "./ResetPassword";
+import ResetPassword from "./resetPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { setShowForgetPasswordModal } from "../../features/authSlice";
+import { setShowModal, setShowForgetPasswordModal } from "../../features/authSlice";
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const LogIn = () => {
   const {
     register,
+    handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -16,7 +18,12 @@ const LogIn = () => {
     },
   });
   const dispatch = useDispatch<AppDispatch>();
-
+  const submit = () => {
+    toast('Login is successful. 🎉', {
+      toastId: 1
+    })
+    dispatch(setShowModal(false));
+  };
 
   const showForgetPasswordModal = useSelector((state: RootState) => state.auth.showForgetPasswordModal);
 
@@ -26,7 +33,7 @@ const LogIn = () => {
 
   return showForgetPasswordModal === false ? (
     <>
-      <form>
+      <form onSubmit={handleSubmit(submit)}>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"

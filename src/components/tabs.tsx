@@ -1,15 +1,15 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../app/store";
+import { setOpenTab } from "../features/authSlice";
 import { TabType } from "../types/enum";
 import SignUp from "./auth/SignUp";
 import LogIn from "./auth/logIn";
 
 const Tabs = () => {
-  const [openTab, setOpenTab] = useState(TabType.logIn);
-  // const [showForgetPasswordModal, setShowForgetPasswordModal] = useState(false);
-
+  // const [openTab, setOpenTab] = useState(TabType.logIn);
+  const dispatch = useDispatch<AppDispatch>();
   const showForgetPasswordModal = useSelector((state: RootState) => state.auth.showForgetPasswordModal);
+  const openTab = useSelector((state: RootState) => state.auth.openTab);
   return (
     <>
       <div className="flex flex-wrap">
@@ -21,49 +21,41 @@ const Tabs = () => {
             {showForgetPasswordModal === false ? (
               <>
                 <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                  <a
+                  <button
                     className={
-                      "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                      (openTab === 1 ? "bg-yellow-400 text-white" : "bg-white")
+                      "w-[100%] text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                      (openTab === TabType.logIn ? "bg-yellow-400 text-white" : "bg-white")
                     }
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setOpenTab(1);
-                    }}
+                    onClick={() => dispatch(setOpenTab(TabType.logIn))}
                     data-toggle="tab"
-                    href="#link1"
                     role="tablist"
                   >
                     LOGIN
-                  </a>
+                  </button>
                 </li>
                 <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                  <a
+                  <button
                     className={
-                      "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                      (openTab === 2 ? "bg-yellow-400 text-white" : "bg-white")
+                      "w-[100%] text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                      (openTab === TabType.signUp ? "bg-yellow-400 text-white" : "bg-white")
                     }
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setOpenTab(2);
-                    }}
+                    onClick={() => dispatch(setOpenTab(TabType.signUp))}
                     data-toggle="tab"
-                    href="#link2"
                     role="tablist"
                   >
                     SIGNUP
-                  </a>
+                  </button>
                 </li>
               </>
             ) : (
               <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                <a
-                  className="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal bg-yellow-400 text-white"
+                <button
+                  className="w-[100%] text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal bg-yellow-400 text-white"
                   data-toggle="tab"
                   role="tablist"
                 >
                   Forget Password
-                </a>
+                </button>
               </li>
             )}
           </ul>
@@ -94,10 +86,7 @@ const Tabs = () => {
 };
 
 export default function TabsRender() {
-
   return (
-    <>
-      <Tabs />
-    </>
+    <Tabs />
   );
 }
