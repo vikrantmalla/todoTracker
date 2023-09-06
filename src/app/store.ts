@@ -6,7 +6,7 @@ import authReducer from "../features/authSlice";
 export const store = configureStore({
   reducer: {
     todos: todoReducer,
-    authReducer,
+    auth: authReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
 });

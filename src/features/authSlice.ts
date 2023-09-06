@@ -3,6 +3,7 @@ import { ContextData } from "../types/data";
 
 const initialState: ContextData.AuthState = {
   showModal: false,
+  showForgetPasswordModal: false,
 };
 
 export const auth = createSlice({
@@ -12,8 +13,11 @@ export const auth = createSlice({
     setShowModal: (state, action) => {
       state.showModal = action.payload;
     },
+    setShowForgetPasswordModal: (state, action) => {
+      state.showForgetPasswordModal = action.payload;
+    },
   },
 });
 
-export const { setShowModal } = auth.actions;
+export const { setShowModal, setShowForgetPasswordModal } = auth.actions;
 export default auth.reducer;
