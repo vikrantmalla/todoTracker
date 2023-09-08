@@ -1,12 +1,9 @@
-import { useState } from "react"
 import Header from "./components/header";
-import TodoForm from "./components/todoForm";
-import TodoList from "./components/todoList";
+import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 function IndexPopup() {
-  const [inputValue, setInputValue] = useState<string>("")
   return (
     <>
       <div>
@@ -14,8 +11,7 @@ function IndexPopup() {
           <Header />
         </header>
         <main className="w-[50%] m-auto">
-          <TodoForm inputValue={inputValue} setInputValue={setInputValue} />
-          <TodoList />
+          <Outlet />
         </main>
       </div>
       <ToastContainer

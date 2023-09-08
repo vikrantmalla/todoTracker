@@ -6,7 +6,6 @@ import SignUp from "./auth/SignUp";
 import LogIn from "./auth/logIn";
 
 const Tabs = () => {
-  // const [openTab, setOpenTab] = useState(TabType.logIn);
   const dispatch = useDispatch<AppDispatch>();
   const showForgetPasswordModal = useSelector((state: RootState) => state.auth.showForgetPasswordModal);
   const openTab = useSelector((state: RootState) => state.auth.openTab);
