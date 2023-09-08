@@ -2,14 +2,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setShowModal } from "../features/authSlice";
 import { AppDispatch, RootState } from "../app/store";
 import AuthModal from "./auth/authModal";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>();
-
+    const navigate = useNavigate();
     // modal open
     const showModal = useSelector((state: RootState) => state.auth.showModal);
     const toggleModal = () => {
         dispatch(setShowModal(true));
+        navigate('/auth');
     };
     return (
         <div className="mb-5 flex justify-between items-center px-8 py-4 bg-sky-600">
