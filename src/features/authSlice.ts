@@ -6,6 +6,9 @@ const initialState: ContextData.AuthState = {
   showModal: false,
   openTab: TabType.logIn,
   showForgetPasswordModal: false,
+  userInfo: localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo") as string)
+    : null,
 };
 
 export const auth = createSlice({
@@ -21,9 +24,21 @@ export const auth = createSlice({
     setShowForgetPasswordModal: (state, action) => {
       state.showForgetPasswordModal = action.payload;
     },
+    setCredentials: (state, action) => {
+      state.userInfo = action.payload;
+      localStorage.setItem("userInfo", JSON.stringify(action.payload));
+    },
+    logout: (state) => {
+      state.userInfo = null;
+      localStorage.removeItem('userInfo');
+    },
   },
 });
 
-export const { setShowModal, setOpenTab, setShowForgetPasswordModal } =
-  auth.actions;
+export const {
+  setShowModal,
+  setOpenTab,
+  setShowForgetPasswordModal,
+  setCredentials,
+} = auth.actions;
 export default auth.reducer;
