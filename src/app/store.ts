@@ -1,13 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-
-import todoReducer from "../features/todoSlice";
+import { apiSlice } from "../features/apiSlice";
 import authReducer from "../features/authSlice";
+import todoReducer from "../features/todoSlice";
 
 export const store = configureStore({
   reducer: {
-    todos: todoReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
+    todos: todoReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

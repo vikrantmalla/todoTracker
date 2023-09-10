@@ -20,6 +20,7 @@ declare namespace Data {
       showModal: boolean;
       openTab: number;
       showForgetPasswordModal: boolean;
+      userInfo: string | null;
     }
   }
 }
