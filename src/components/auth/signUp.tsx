@@ -1,10 +1,13 @@
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../app/store";
-import { setShowModal } from "../../features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
+import { setCredentials, setShowModal } from "../../features/authSlice";
 import { SignUpSubmitForm } from "../../types/form";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from "react-router-dom";
+import { useRegMutation } from "../../features/userApiSlice";
+import { useEffect } from "react";
 
 
 const SignUp = () => {
@@ -16,20 +19,47 @@ const SignUp = () => {
     reset
   } = useForm({
     defaultValues: {
+      signupName: "",
       signupEmail: "",
       signupPassword: "",
       signupConfirmPassword: "",
     },
   });
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const [reg] = useRegMutation();
+
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/');
+    }
+  }, [navigate, userInfo]);
+
 
   const submit = async (formData: SignUpSubmitForm) => {
-    console.log(formData)
-    toast('Registration is successful. 🎉', {
-      toastId: 1
-    })
-    dispatch(setShowModal(false));
-    reset();
+    const { signupName, signupEmail, signupPassword, signupConfirmPassword } = formData
+    const name = signupName;
+    const email = signupEmail;
+    const password = signupPassword;
+    if (signupPassword !== signupConfirmPassword) {
+      toast.error('Passwords do not match');
+    } else {
+      try {
+        const res = await reg({ name, email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate('/');
+        toast('Registration is successful. 🎉', {
+          toastId: 1
+        })
+        dispatch(setShowModal(false));
+        reset();
+      } catch (err) {
+        console.log(err)
+      }
+    }
   };
 
   const validatePassword = (value: string) => {
@@ -53,6 +83,28 @@ const SignUp = () => {
 
   return (
     <form onSubmit={handleSubmit(submit)}>
+      <div className="mb-4">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="name"
+        >
+          Name
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="name"
+          type="name"
+          placeholder="Enter Name"
+          {...register("signupName", {
+            required: "Please enter your name",
+          })}
+        />
+        {errors.signupName != null && (
+          <small className="error-message block text-red-600 mt-2">
+            {errors.signupName.message}
+          </small>
+        )}
+      </div>
       <div className="mb-4">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"

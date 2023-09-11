@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
 import { setOpenTab } from "../features/authSlice";
 import { TabType } from "../types/enum";
-import SignUp from "./auth/SignUp";
+import SignUp from "./auth/signUp";
 import LogIn from "./auth/logIn";
 
 const Tabs = () => {
