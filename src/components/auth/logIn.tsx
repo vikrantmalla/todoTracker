@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import ResetPassword from "./resetPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
-import { setShowModal, setShowForgetPasswordModal } from "../../features/authSlice";
+import { setShowModal, setShowForgetPasswordModal, setCredentials } from "../../features/authSlice";
+import { useLoginMutation } from "../../features/userApiSlice";
+import { useNavigate } from "react-router-dom";
+import { LogInSubmitForm } from "../../types/form";
+import ResetPassword from "./resetPassword";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -18,11 +22,33 @@ const LogIn = () => {
     },
   });
   const dispatch = useDispatch<AppDispatch>();
-  const submit = () => {
-    toast('Login is successful. 🎉', {
-      toastId: 1
-    })
-    dispatch(setShowModal(false));
+  const navigate = useNavigate();
+
+  const [login] = useLoginMutation();
+
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/');
+    }
+  }, [navigate, userInfo]);
+
+  const submit = async (data: LogInSubmitForm) => {
+    const { loginEmail, loginPassword } = data;
+    const email = loginEmail;
+    const password = loginPassword;
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate('/');
+      toast('Login is successful. 🎉', {
+        toastId: 1
+      })
+      dispatch(setShowModal(false));
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   const showForgetPasswordModal = useSelector((state: RootState) => state.auth.showForgetPasswordModal);
@@ -99,7 +125,6 @@ const LogIn = () => {
           >
             Log In
           </button>
-          
         </div>
       </form>
     </>

@@ -30,7 +30,7 @@ export const auth = createSlice({
     },
     logout: (state) => {
       state.userInfo = null;
-      localStorage.removeItem('userInfo');
+      localStorage.removeItem("userInfo");
     },
   },
 });
@@ -40,5 +40,6 @@ export const {
   setOpenTab,
   setShowForgetPasswordModal,
   setCredentials,
+  logout,
 } = auth.actions;
 export default auth.reducer;
