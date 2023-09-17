@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../app/store";
-import { setShowForgetPasswordModal } from "../../features/authSlice";
+import { setCredentials, setShowForgetPasswordModal, setShowModal } from "../../features/authSlice";
+import { LogInSubmitForm } from "../../types/form";
+import { useUpdateUserMutation } from "../../features/userApiSlice";
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -18,11 +21,26 @@ const ResetPassword = () => {
     },
   });
 
-  const submit = () => {
-    toast('Reset Password. 🎉', {
-      toastId: 1
-    })
-    reset()
+  const navigate = useNavigate();
+
+  const [updateUser] = useUpdateUserMutation();
+
+  const submit = async (data: LogInSubmitForm) => {
+    const { loginEmail, loginPassword } = data;
+    const email = loginEmail;
+    const password = loginPassword;
+    try {
+      const res = await updateUser({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate('/');
+      toast('Login is successful. 🎉', {
+        toastId: 1
+      });
+      reset();
+      dispatch(setShowModal(false));
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   const dispatch = useDispatch<AppDispatch>();

@@ -54,8 +54,8 @@ const SignUp = () => {
         toast('Registration is successful. 🎉', {
           toastId: 1
         })
-        dispatch(setShowModal(false));
         reset();
+        dispatch(setShowModal(false));
       } catch (err) {
         console.log(err)
       }

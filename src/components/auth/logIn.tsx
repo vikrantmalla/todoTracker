@@ -14,6 +14,7 @@ const LogIn = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -45,6 +46,7 @@ const LogIn = () => {
       toast('Login is successful. 🎉', {
         toastId: 1
       })
+      reset();
       dispatch(setShowModal(false));
     } catch (err) {
       console.log(err)
