@@ -42,7 +42,6 @@ const LogIn = () => {
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
-      navigate('/');
       toast('Login is successful. 🎉', {
         toastId: 1
       })
