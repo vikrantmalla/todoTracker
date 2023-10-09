@@ -34,7 +34,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, [navigate, userInfo]);
 
@@ -50,7 +50,6 @@ const SignUp = () => {
       try {
         const res = await reg({ name, email, password }).unwrap();
         dispatch(setCredentials({ ...res }));
-        navigate('/');
         toast('Registration is successful. 🎉', {
           toastId: 1
         })
