@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../app/store";
@@ -8,11 +8,29 @@ import { logout } from "../features/authSlice";
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const { userInfo } = useSelector((state: RootState) => state.auth);
-    const userName = userInfo?.name?.charAt(0);
-
+    const popupRef = useRef<HTMLDivElement | null>(null);
     const [isPopUpOpen, setIsPopUpOpen] = useState<boolean>(false);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+                setIsPopUpOpen(false);
+            }
+        };
+
+        // Add the event listener when the pop-up is open
+        if (isPopUpOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isPopUpOpen]);
+
+    const { userInfo } = useSelector((state: RootState) => state.auth);
+    const userName = userInfo?.name?.charAt(0);
 
     const popUpHandler = () => {
         setIsPopUpOpen((prevState) => !prevState);
@@ -29,6 +47,7 @@ const Header = () => {
             console.error(err);
         }
     };
+
     return (
         <div className="mb-5 flex justify-between items-center px-8 py-4 bg-sky-600">
             <h1 className="text-base font-medium text-white">TaskTracker</h1>
@@ -39,7 +58,7 @@ const Header = () => {
                     </div>
                 )}
                 {isPopUpOpen &&
-                    <div className="absolute top-20 -right-0 w-48 h-44 border bg-slate-100 rounded-md">
+                    <div ref={popupRef} className="absolute top-20 -right-0 w-48 h-44 border bg-slate-100 rounded-md">
                         {userInfo && (
                             <>
                                 <div className="rounded-full w-11 h-11 bg-purple-800 mt-2 m-auto">
