@@ -69,6 +69,7 @@ const Header = () => {
                             </>
                         )}
                         <ul>
+                            <li>Forget Password</li>
                             <li
                                 className="text-black font-bold py-2 px-6 rounded"
                                 onClick={logoutHandler}>

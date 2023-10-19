@@ -29,7 +29,7 @@ export const auth = createSlice({
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
     logout: (state) => {
-      state.userInfo = null;
+      state.userInfo;
       localStorage.removeItem("userInfo");
     },
   },
