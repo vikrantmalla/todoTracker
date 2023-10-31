@@ -7,7 +7,7 @@ import LogIn from "./auth/logIn";
 
 const Tabs = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const showForgetPasswordModal = useSelector((state: RootState) => state.auth.showForgetPasswordModal);
+  // const showForgetPasswordModal = useSelector((state: RootState) => state.auth.showForgetPasswordModal);
   const openTab = useSelector((state: RootState) => state.auth.openTab);
   return (
     <>
@@ -17,46 +17,32 @@ const Tabs = () => {
             className="flex flex-column mb-0 list-none flex-wrap pt-3 pb-4"
             role="tablist"
           >
-            {showForgetPasswordModal === false ? (
-              <>
-                <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                  <button
-                    className={
-                      "w-[100%] text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                      (openTab === TabType.logIn ? "bg-yellow-400 text-white" : "bg-white")
-                    }
-                    onClick={() => dispatch(setOpenTab(TabType.logIn))}
-                    data-toggle="tab"
-                    role="tablist"
-                  >
-                    LOGIN
-                  </button>
-                </li>
-                <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                  <button
-                    className={
-                      "w-[100%] text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
-                      (openTab === TabType.signUp ? "bg-yellow-400 text-white" : "bg-white")
-                    }
-                    onClick={() => dispatch(setOpenTab(TabType.signUp))}
-                    data-toggle="tab"
-                    role="tablist"
-                  >
-                    SIGNUP
-                  </button>
-                </li>
-              </>
-            ) : (
-              <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                <button
-                  className="w-[100%] text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal bg-yellow-400 text-white"
-                  data-toggle="tab"
-                  role="tablist"
-                >
-                  Forget Password
-                </button>
-              </li>
-            )}
+            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+              <button
+                className={
+                  "w-[100%] text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                  (openTab === TabType.logIn ? "bg-yellow-400 text-white" : "bg-white")
+                }
+                onClick={() => dispatch(setOpenTab(TabType.logIn))}
+                data-toggle="tab"
+                role="tablist"
+              >
+                LOGIN
+              </button>
+            </li>
+            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+              <button
+                className={
+                  "w-[100%] text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                  (openTab === TabType.signUp ? "bg-yellow-400 text-white" : "bg-white")
+                }
+                onClick={() => dispatch(setOpenTab(TabType.signUp))}
+                data-toggle="tab"
+                role="tablist"
+              >
+                SIGNUP
+              </button>
+            </li>
           </ul>
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full rounded">
             <div className="px-4 py-5 flex-auto">

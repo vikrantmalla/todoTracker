@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../app/store";
 import { useLogoutMutation } from "../features/userApiSlice";
-import { logout } from "../features/authSlice";
+import { logout, setShowModal } from "../features/authSlice";
+import ResetPassword from "./auth/resetPassword";
 
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -48,6 +49,12 @@ const Header = () => {
         }
     };
 
+    const showModal = useSelector((state: RootState) => state.auth.showModal);
+
+    const handleShowForgetPasswordModal = () => {
+        dispatch(setShowModal(true));
+    };
+
     return (
         <div className="mb-5 flex justify-between items-center px-8 py-4 bg-sky-600">
             <h1 className="text-base font-medium text-white">TaskTracker</h1>
@@ -69,7 +76,9 @@ const Header = () => {
                             </>
                         )}
                         <ul>
-                            <li>Forget Password</li>
+                            <li onClick={handleShowForgetPasswordModal}>
+                                Forgot Password?
+                            </li>
                             <li
                                 className="text-black font-bold py-2 px-6 rounded"
                                 onClick={logoutHandler}>
@@ -77,6 +86,7 @@ const Header = () => {
                             </li>
                         </ul>
                     </div>}
+                {showModal ? <ResetPassword /> : null}
             </div>
         </div>
     )
