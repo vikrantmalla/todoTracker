@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +23,7 @@ const ResetPassword = () => {
   });
 
   const navigate = useNavigate();
-
+  const dispatch = useDispatch<AppDispatch>();
   const [updateUser] = useUpdateUserMutation();
 
   const submit = async (data: LogInSubmitForm) => {
@@ -33,7 +34,7 @@ const ResetPassword = () => {
       const res = await updateUser({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate('/');
-      toast('Login is successful. 🎉', {
+      toast('Reset password is successful. 🎉', {
         toastId: 1
       });
       reset();
@@ -43,7 +44,22 @@ const ResetPassword = () => {
     }
   };
 
-  const dispatch = useDispatch<AppDispatch>();
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        // Clicked outside the modal, close it here.
+        dispatch(setShowModal(false));
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dispatch]);
+
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -58,6 +74,7 @@ const ResetPassword = () => {
           &#8203;
         </span>
         <div
+          ref={modalRef}
           className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
         >
           <div>
