@@ -53,6 +53,7 @@ const Header = () => {
 
     const handleShowForgetPasswordModal = () => {
         dispatch(setShowModal(true));
+        setIsPopUpOpen(false);
     };
 
     return (
@@ -68,19 +69,23 @@ const Header = () => {
                     <div ref={popupRef} className="absolute top-20 -right-0 w-48 h-44 border bg-slate-100 rounded-md">
                         {userInfo && (
                             <>
-                                <div className="rounded-full w-11 h-11 bg-purple-800 mt-2 m-auto">
-                                    <p className="text-lg text-white py-2">{userName}</p>
-                                    <h1 className="mt-2">{userInfo?.name}</h1>
+                                <div className="flex gap-5 justify-center items-center mb-2 pb-2 border-b-2 border-black">
+                                    <div className="rounded-full w-11 h-11 bg-purple-800 mt-2">
+                                        <p className="text-lg text-white py-2">{userName}</p>
+                                    </div>
+                                    <div className="text-left">
+                                        <h1 className="mt-2">{userInfo?.name}</h1>
+                                        <p className="text-sm">{userInfo?.email}</p>
+                                    </div>
                                 </div>
-                                <br />
                             </>
                         )}
-                        <ul>
-                            <li onClick={handleShowForgetPasswordModal}>
+                        <ul className="mt-5">
+                            <li onClick={handleShowForgetPasswordModal} className="cursor-pointer">
                                 Forgot Password?
                             </li>
                             <li
-                                className="text-black font-bold py-2 px-6 rounded"
+                                className="text-black font-bold py-2 px-6 rounded cursor-pointer"
                                 onClick={logoutHandler}>
                                 Log Out
                             </li>
